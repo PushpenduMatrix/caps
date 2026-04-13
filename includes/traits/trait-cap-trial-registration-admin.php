@@ -90,82 +90,101 @@ trait CAP_Trial_Registration_Admin_Trait {
 		$start_item  = $total_items > 0 ? ( ( $paged - 1 ) * $per_page ) + 1 : 0;
 		$end_item    = min( $paged * $per_page, $total_items );
 		?>
-		<div class="wrap cap-trial-registration-admin">
-			<h1>CAP Trial Registrations</h1>
-			<form method="get" style="margin: 12px 0;">
-				<input type="hidden" name="page" value="cap-trial-registrations">
-				<select name="payment_status">
-					<option value="">All Payment</option>
-					<option value="paid" <?php selected( $payment_filter, 'paid' ); ?>>Paid</option>
-					<option value="unpaid" <?php selected( $payment_filter, 'unpaid' ); ?>>Pending Payment</option>
-				</select>
-				<select name="approval_status">
-					<option value="">All Approval</option>
-					<option value="Pending" <?php selected( $approval_filter, 'Pending' ); ?>>Pending</option>
-					<option value="Approved" <?php selected( $approval_filter, 'Approved' ); ?>>Approved</option>
-					<option value="Disapproved" <?php selected( $approval_filter, 'Disapproved' ); ?>>Disapproved</option>
-				</select>
-				<button class="button">Filter</button>
-				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registrations' ) ); ?>">Reset</a>
-				<?php
-				$export_url = wp_nonce_url(
-					admin_url( 'admin-post.php?action=cap_export_registrations_csv&payment_status=' . rawurlencode( $payment_filter ) . '&approval_status=' . rawurlencode( $approval_filter ) ),
-					'cap_export_csv'
-				);
-				?>
-				<a class="button button-primary" href="<?php echo esc_url( $export_url ); ?>">Export CSV</a>
-			</form>
-			<p style="margin: 8px 0 12px; color: #50575e;">
-				<?php
-				printf(
-					'Showing %1$d-%2$d of %3$d registrations',
-					(int) $start_item,
-					(int) $end_item,
-					(int) $total_items
-				);
-				?>
-			</p>
-			<table class="widefat striped">
-				<thead>
-					<tr>
-						<th>Reference</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Mobile</th>
-						<th>Venue</th>
-						<th>Date</th>
-						<th>Date Applied</th>
-						<th>Payment</th>
-						<th>Approval</th>
-						<th>View</th>
-						<th>Action</th>
+	<div class="cap-list-toolbar">
+		<form method="get" class="cap-filter-form">
+			<input type="hidden" name="page" value="cap-trial-registrations">
+
+			<select name="payment_status">
+				<option value="">All Payment</option>
+				<option value="paid" <?php selected( $payment_filter, 'paid' ); ?>>Paid</option>
+				<option value="unpaid" <?php selected( $payment_filter, 'unpaid' ); ?>>Pending Payment</option>
+			</select>
+
+			<select name="approval_status">
+				<option value="">All Approval</option>
+				<option value="Pending" <?php selected( $approval_filter, 'Pending' ); ?>>Pending</option>
+				<option value="Approved" <?php selected( $approval_filter, 'Approved' ); ?>>Approved</option>
+				<option value="Disapproved" <?php selected( $approval_filter, 'Disapproved' ); ?>>Disapproved</option>
+			</select>
+
+			<button class="button button-secondary">Filter</button>
+
+			<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registrations' ) ); ?>">
+				Reset
+			</a>
+
+			<?php
+			$export_url = wp_nonce_url(
+				admin_url( 'admin-post.php?action=cap_export_registrations_csv&payment_status=' . rawurlencode( $payment_filter ) . '&approval_status=' . rawurlencode( $approval_filter ) ),
+				'cap_export_csv'
+			);
+			?>
+
+			<a class="button button-primary" href="<?php echo esc_url( $export_url ); ?>">
+				Export CSV
+			</a>
+		</form>
+	</div>
+			<!-- 🔷 RESULT COUNT -->
+	<div class="cap-list-meta">
+		<?php
+		printf(
+			'Showing %1$d-%2$d of %3$d registrations',
+			(int) $start_item,
+			(int) $end_item,
+			(int) $total_items
+		);
+		?>
+	</div>
+
+		<!-- 🔷 TABLE WRAP -->
+	<div class="cap-table-wrap">
+		<table class="widefat striped cap-acf-table">
+			<thead>
+				<tr>
+					<th>Reference</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Mobile</th>
+					<th>Venue</th>
+					<th>Date</th>
+					<th>Date Applied</th>
+					<th>Payment</th>
+					<th>Approval</th>
+					<th>View</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if ( empty( $items ) ) : ?>
+					<tr class="cap-empty-row">
+						<td colspan="11">No registrations found.</td>
 					</tr>
-				</thead>
-				<tbody>
-					<?php if ( empty( $items ) ) : ?>
-						<tr><td colspan="11">No registrations found.</td></tr>
-					<?php else : ?>
-						<?php foreach ( $items as $item ) : ?>
-							<tr>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_reference_id', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_full_name', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_email_id', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_mobile_number', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_preferred_trial_venue', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_preferred_trial_date', true ) ); ?></td>
-								<td><?php echo esc_html( get_the_date( 'd M Y h:i A', $item ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_payment_status', true ) ); ?></td>
-								<td><?php echo esc_html( get_post_meta( $item->ID, '_approval_status', true ) ); ?></td>
-								<td>
-									<?php $view_url = admin_url( 'admin.php?page=cap-trial-registrations&view_id=' . $item->ID ); ?>
-									<a class="button" href="<?php echo esc_url( $view_url ); ?>">View</a>
-								</td>
-								<td><?php echo wp_kses_post( $this->admin_action_buttons( $item->ID ) ); ?></td>
-							</tr>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</tbody>
-			</table>
+				<?php else : ?>
+					<?php foreach ( $items as $item ) : ?>
+						<tr>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_reference_id', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_full_name', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_email_id', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_mobile_number', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_preferred_trial_venue', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_preferred_trial_date', true ) ); ?></td>
+							<td><?php echo esc_html( get_the_date( 'd M Y h:i A', $item ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_payment_status', true ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $item->ID, '_approval_status', true ) ); ?></td>
+							<td>
+								<?php $view_url = admin_url( 'admin.php?page=cap-trial-registrations&view_id=' . $item->ID ); ?>
+								<a class="button button-small" href="<?php echo esc_url( $view_url ); ?>">View</a>
+							</td>
+							<td class="cap-admin-actions">
+								<?php echo wp_kses_post( $this->admin_action_buttons( $item->ID ) ); ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</tbody>
+		</table>
+
 			<?php
 			$pagination_base = add_query_arg(
 				array(
@@ -188,9 +207,9 @@ trait CAP_Trial_Registration_Admin_Trait {
 			);
 			if ( $pagination_links ) :
 				?>
-				<div class="tablenav" style="margin-top:12px;">
-					<div class="tablenav-pages"><?php echo wp_kses_post( $pagination_links ); ?></div>
-				</div>
+				<div class="cap-pagination">
+			<?php echo wp_kses_post( $pagination_links ); ?>
+		</div>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -230,25 +249,48 @@ trait CAP_Trial_Registration_Admin_Trait {
 			'Approval Status'          => get_post_meta( $reg_id, '_approval_status', true ),
 		);
 		?>
-		<div class="wrap cap-trial-registration-admin">
-			<h1>Registration Details</h1>
-			<p>
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registrations' ) ); ?>" class="button">&larr; Back to list</a>
-				<?php $print_url = wp_nonce_url( admin_url( 'admin-post.php?action=cap_print_registration&reg_id=' . $reg_id ), 'cap_print_registration_' . $reg_id ); ?>
-				<a href="<?php echo esc_url( $print_url ); ?>" class="button" target="_blank" rel="noopener">Print</a>
-				<a href="<?php echo esc_url( $print_url . '&download=pdf' ); ?>" class="button button-primary" target="_blank" rel="noopener">Download PDF</a>
-			</p>
-			<table class="widefat striped">
-				<tbody>
-					<?php foreach ( $fields as $label => $value ) : ?>
-						<tr>
-							<th style="width: 300px;"><?php echo esc_html( $label ); ?></th>
-							<td><?php echo esc_html( (string) $value ); ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+<div class="wrap cap-trial-registration-admin">
+
+	<h1 class="cap-page-title">Registration Details</h1>
+
+	<!-- 🔷 ACTION BAR (ACF STYLE) -->
+	<div class="cap-list-toolbar">
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registrations' ) ); ?>" class="button">
+			&larr; Back to list
+		</a>
+
+		<?php $print_url = wp_nonce_url( admin_url( 'admin-post.php?action=cap_print_registration&reg_id=' . $reg_id ), 'cap_print_registration_' . $reg_id ); ?>
+
+		<a href="<?php echo esc_url( $print_url ); ?>" class="button" target="_blank" rel="noopener">
+			Print
+		</a>
+
+		<a href="<?php echo esc_url( $print_url . '&download=pdf' ); ?>" class="button button-primary" target="_blank" rel="noopener">
+			Download PDF
+		</a>
+	</div>
+
+	<!-- 🔷 ACF STYLE BOX -->
+	<div class="cap-acf-box">
+
+		<div class="cap-acf-header">
+			Registration Information
 		</div>
+
+		<table class="form-table cap-form-table">
+			<tbody>
+				<?php foreach ( $fields as $label => $value ) : ?>
+					<tr>
+						<th><?php echo esc_html( $label ); ?></th>
+						<td><?php echo esc_html( (string) $value ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+
+	</div>
+
+</div>
 		<?php
 	}
 
@@ -467,15 +509,34 @@ trait CAP_Trial_Registration_Admin_Trait {
 		}
 		?>
 		<div class="wrap cap-trial-registration-admin">
-			<h1>CAP Trial Registration Settings</h1>
-			<h2 class="nav-tab-wrapper">
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=trial' ) ); ?>" class="nav-tab <?php echo 'trial' === $tab ? 'nav-tab-active' : ''; ?>">1. Preferred Venue/Date/Time</a>
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=payment_sms' ) ); ?>" class="nav-tab <?php echo 'payment_sms' === $tab ? 'nav-tab-active' : ''; ?>">2. Payment & SMS</a>
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=email' ) ); ?>" class="nav-tab <?php echo 'email' === $tab ? 'nav-tab-active' : ''; ?>">3. Email Settings</a>
-			</h2>
-			<form method="post" action="options.php">
-				<?php settings_fields( 'cap_trial_registration_settings' ); ?>
-				<table class="form-table">
+
+	<h1 class="cap-page-title">CAP Trial Registration Settings</h1>
+
+	<h2 class="nav-tab-wrapper cap-tabs">
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=trial' ) ); ?>" class="nav-tab <?php echo 'trial' === $tab ? 'nav-tab-active cap-accent-blue' : ''; ?>">1. Preferred Venue/Date/Time</a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=payment_sms' ) ); ?>" class="nav-tab <?php echo 'payment_sms' === $tab ? 'nav-tab-active' : ''; ?>">2. Payment & SMS</a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=cap-trial-registration-settings&tab=email' ) ); ?>" class="nav-tab <?php echo 'email' === $tab ? 'nav-tab-active' : ''; ?>">3. Email Settings</a>
+	</h2>
+
+	<form method="post" action="options.php" class="cap-settings-form">
+		<?php settings_fields( 'cap_trial_registration_settings' ); ?>
+
+		<div class="cap-acf-box">
+
+			<!-- 🔵 ACF STYLE HEADER -->
+			<div class="cap-acf-header">
+				<?php
+				if ( 'trial' === $tab ) {
+					echo 'Trial Configuration';
+				} elseif ( 'payment_sms' === $tab ) {
+					echo 'Payment & SMS Configuration';
+				} else {
+					echo 'Email Configuration';
+				}
+				?>
+			</div>
+
+			<table class="form-table cap-form-table">
 					<?php if ( 'trial' === $tab ) : ?>
 						<tr>
 							<th scope="row"><label for="trial_venue_date_map">Venue-Date Mapping</label></th>
@@ -488,7 +549,7 @@ trait CAP_Trial_Registration_Admin_Trait {
 							<th scope="row"><label for="batch_timings">Batch Timings</label></th>
 							<td>
 								<textarea id="batch_timings" name="<?php echo esc_attr( self::OPT_KEY ); ?>[batch_timings]" rows="6" class="large-text code"><?php echo esc_textarea( implode( "\n", (array) $settings['batch_timings'] ) ); ?></textarea>
-								<p class="description">One timing per line.</p>
+								<p class="description"><code>One timing per line.</code></p>
 							</td>
 						</tr>
 						<tr>
@@ -586,10 +647,15 @@ trait CAP_Trial_Registration_Admin_Trait {
 							</td>
 						</tr>
 					<?php endif; ?>
-				</table>
-				<?php submit_button(); ?>
-			</form>
+							</table>
 		</div>
+
+		<div class="cap-submit-wrap">
+			<?php submit_button( 'Save Settings' ); ?>
+		</div>
+
+	</form>
+</div>
 		<?php
 	}
 }

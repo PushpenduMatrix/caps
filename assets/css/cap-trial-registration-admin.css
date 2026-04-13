@@ -2,7 +2,7 @@
 	margin-right: 4px;
 }
 
-.cap-trial-registration-admin .button + .button {
+.cap-trial-registration-admin .button+.button {
 	margin-left: 6px;
 }
 
@@ -14,4 +14,249 @@
 .cap-trial-registration-admin table.widefat th,
 .cap-trial-registration-admin table.widefat td {
 	vertical-align: middle;
+}
+
+/* ===== Base Typography (ACF style) ===== */
+.cap-trial-registration-admin {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	color: #2c3338;
+	font-size: 13px;
+}
+
+/* Page background feel */
+.cap-settings-form {
+	background: #f6f7f7;
+	padding: 0;
+}
+
+/* ===== Tabs (ACF BLUE STYLE) ===== */
+.cap-tabs {
+	background: #f6f7f7;
+	border-bottom: 1px solid #dcdcde;
+	padding-left: 10px;
+}
+
+/* Default tab */
+.cap-tabs .nav-tab {
+	background: transparent;
+	border: none;
+	border-bottom: 3px solid transparent;
+	color: #646970;
+	font-size: 13px;
+	font-weight: 500;
+	padding: 12px 16px;
+	margin: 0 4px -1px 0;
+}
+
+/* Hover */
+.cap-tabs .nav-tab:hover {
+	color: #2271b1;
+}
+
+/* 🔵 Active Tab (ACF BLUE) */
+.cap-tabs .nav-tab-active {
+	color: #2271b1;
+	border-bottom: 3px solid #2271b1;
+	background: transparent;
+	font-weight: 600;
+}
+
+/* ===== ACF BOX ===== */
+.cap-acf-box {
+	background: #ffffff;
+	border: 1px solid #dcdcde;
+	border-top: none;
+}
+
+/* Header (light, not dark like before) */
+.cap-acf-header {
+	background: #f0f0f1;
+	color: #1d2327;
+	padding: 10px 15px;
+	font-size: 13px;
+	font-weight: 600;
+	border-bottom: 1px solid #dcdcde;
+}
+
+/* ===== Table Layout ===== */
+.cap-form-table {
+	margin: 0;
+}
+
+.cap-form-table th {
+	width: 220px;
+	padding: 16px;
+	font-weight: 500;
+	color: #1d2327;
+	vertical-align: top;
+}
+
+.cap-form-table td {
+	padding: 16px;
+}
+
+/* Row separator */
+.cap-form-table tr {
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.cap-form-table tr:last-child {
+	border-bottom: none;
+}
+
+/* ===== Inputs (ACF Style) ===== */
+.cap-form-table input[type="text"],
+.cap-form-table input[type="url"],
+.cap-form-table input[type="email"],
+.cap-form-table input[type="number"],
+.cap-form-table textarea,
+.cap-form-table select {
+	width: 100%;
+	max-width: 520px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 6px 8px;
+	font-size: 13px;
+	background: #fff;
+}
+
+/* Focus */
+.cap-form-table input:focus,
+.cap-form-table textarea:focus,
+.cap-form-table select:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: none;
+}
+
+/* Description text */
+.cap-form-table .description {
+	margin-top: 6px;
+	color: #646970;
+	font-size: 12px;
+}
+
+/* ===== Button (match ACF blue) ===== */
+.cap-submit-wrap .button-primary {
+	background: #2271b1;
+	border-color: #2271b1;
+}
+
+.cap-submit-wrap .button-primary:hover {
+	background: #135e96;
+	border-color: #135e96;
+}
+
+/* Spacing */
+.cap-submit-wrap {
+	padding: 15px;
+}
+
+/* ===== Toolbar (ACF-like) ===== */
+.cap-list-toolbar {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-bottom: none;
+	padding: 10px 12px;
+}
+
+.cap-filter-form {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.cap-filter-form select {
+	min-width: 160px;
+}
+
+/* ===== Meta Info ===== */
+.cap-list-meta {
+	padding: 10px 12px;
+	font-size: 12px;
+	color: #646970;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-top: none;
+}
+
+/* ===== Table Wrap ===== */
+.cap-table-wrap {
+	border: 1px solid #dcdcde;
+	border-top: none;
+	background: #fff;
+}
+
+/* Table */
+.cap-acf-table {
+	border: none;
+}
+
+.cap-acf-table thead th {
+	background: #f6f7f7;
+	font-weight: 500;
+	font-size: 12px;
+	color: #1d2327;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.cap-acf-table td {
+	font-size: 13px;
+	vertical-align: middle;
+}
+
+/* Row hover (subtle ACF feel) */
+.cap-acf-table tbody tr:hover {
+	background: #f9f9f9;
+}
+
+/* Empty state */
+.cap-empty-row td {
+	text-align: center;
+	color: #646970;
+	padding: 20px;
+}
+
+/* Actions */
+.cap-admin-actions {
+	display: flex;
+	gap: 6px;
+}
+
+/* ===== Pagination ===== */
+.cap-pagination {
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-top: none;
+}
+
+.cap-pagination .page-numbers {
+	margin-right: 4px;
+	padding: 4px 8px;
+	border: 1px solid #dcdcde;
+	background: #f6f7f7;
+	text-decoration: none;
+	color: #2271b1;
+}
+
+.cap-pagination .current {
+	background: #2271b1;
+	color: #fff;
+	border-color: #2271b1;
+}
+
+/* Row separators */
+.cap-form-table tr {
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.cap-form-table tr:last-child {
+	border-bottom: none;
+}
+
+/* Improve readability of values */
+.cap-form-table td {
+	word-break: break-word;
 }
