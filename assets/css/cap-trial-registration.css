@@ -1,0 +1,228 @@
+.cap-reg-wrap {
+	max-width: 1000px;
+	margin: 50px auto;
+	padding: 30px;
+	background: #f4f6f8;
+	border-radius: 10px;
+}
+
+/* Title */
+.cap-form-title {
+	text-align: center;
+	font-size: 22px;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+
+/* Progress Bar */
+.cap-progress-bar {
+	height: 6px;
+	background: #e0e0e0;
+	border-radius: 10px;
+	margin-bottom: 25px;
+}
+
+.cap-progress-bar-fill {
+	height: 100%;
+	width: 0%;
+	background: #0f62fe;
+	transition: width 0.3s;
+}
+
+/* Stepper */
+.cap-stepper {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 25px;
+}
+
+.cap-step-indicator {
+	text-align: center;
+	font-size: 12px;
+	color: #888;
+}
+
+.cap-step-indicator.active {
+	color: #0f62fe;
+	font-weight: bold;
+}
+
+/* Step */
+.cap-form-step {
+	background: #fff;
+	padding: 25px;
+	border-radius: 8px;
+}
+
+/* Grid */
+.cap-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+
+.cap-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.cap-field label {
+	font-size: 11px;
+	text-transform: uppercase;
+	margin-bottom: 5px;
+}
+
+/* Inputs */
+.cap-grid input,
+.cap-grid select,
+.cap-grid textarea {
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	background: #fafafa;
+}
+
+.cap-grid textarea {
+	grid-column: span 2;
+}
+
+/* Buttons */
+.cap-step-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.cap-btn {
+	background: #0f62fe;
+	color: #fff;
+	border: none;
+	padding: 12px 18px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.cap-btn-secondary {
+	background: #ccc;
+	color: #000;
+}
+
+.cap-reg-errors {
+	background: #ffecec;
+	border: 1px solid #f5c2c2;
+	padding: 12px;
+	margin-bottom: 15px;
+	border-radius: 6px;
+}
+
+.cap-grid input.cap-field-error,
+.cap-grid select.cap-field-error,
+.cap-grid textarea.cap-field-error,
+.cap-checkbox-group input.cap-field-error,
+.cap-terms-box input.cap-field-error {
+	border: 1px solid #e03131;
+}
+
+.cap-input-error-msg {
+	color: #e03131;
+	font-size: 12px;
+	margin-top: 6px;
+}
+
+/* -------------------------
+   CHECKBOX GROUP (IMPORTANT UX FIX)
+--------------------------*/
+
+.cap-checkbox-group {
+	background: #fff;
+	padding: 18px;
+	border-radius: 8px;
+	border: 1px solid #eee;
+	margin-top: 10px;
+}
+
+/* Clean checkbox layout */
+.cap-checkbox-group label {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	font-size: 13px;
+	line-height: 1.5;
+	padding: 8px 0;
+	cursor: pointer;
+	border-bottom: 1px dashed #eee;
+}
+
+.cap-checkbox-group label:last-child {
+	border-bottom: none;
+}
+
+/* Better checkbox styling */
+.cap-checkbox-group input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	margin-top: 3px;
+	accent-color: #0f62fe;
+}
+
+/* -------------------------
+   TERMS BOX (TRUST SECTION)
+--------------------------*/
+
+.cap-terms-box {
+	margin-top: 20px;
+	padding: 18px;
+	background: #f9fafc;
+	border: 1px solid #e3e6ea;
+	border-radius: 8px;
+}
+
+.cap-terms-box h4 {
+	font-size: 14px;
+	margin-bottom: 10px;
+	color: #0f62fe;
+}
+
+/* Make terms readable */
+.cap-terms-box ul {
+	padding-left: 18px;
+	margin-bottom: 12px;
+}
+
+.cap-terms-box li {
+	font-size: 13px;
+	margin-bottom: 6px;
+	color: #444;
+}
+
+/* Terms checkbox highlight */
+.cap-terms-box label {
+	display: flex;
+	gap: 10px;
+	font-weight: 600;
+	background: #fff;
+	padding: 10px;
+	border-radius: 6px;
+	border: 1px solid #eee;
+}
+
+/* -------------------------
+   MOBILE OPTIMIZATION
+--------------------------*/
+
+@media (max-width: 768px) {
+
+	/* Step 2 stack */
+	.cap-form-step[data-step="2"] .cap-grid {
+		grid-template-columns: 1fr;
+	}
+
+	/* Step 3 stack */
+	.cap-form-step[data-step="3"] .cap-grid {
+		grid-template-columns: 1fr;
+	}
+
+	#preferred_batch_timing {
+		grid-column: span 1;
+	}
+}
