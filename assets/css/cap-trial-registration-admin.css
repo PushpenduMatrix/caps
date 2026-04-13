@@ -1,0 +1,17 @@
+.cap-trial-registration-admin .tablenav-pages .page-numbers {
+	margin-right: 4px;
+}
+
+.cap-trial-registration-admin .button + .button {
+	margin-left: 6px;
+}
+
+.cap-trial-registration-admin .cap-admin-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.cap-trial-registration-admin table.widefat th,
+.cap-trial-registration-admin table.widefat td {
+	vertical-align: middle;
+}
