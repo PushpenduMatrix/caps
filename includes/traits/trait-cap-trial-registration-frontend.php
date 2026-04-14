@@ -54,9 +54,9 @@ trait CAP_Trial_Registration_Frontend_Trait {
 				<div id="cap-checkout-form-panel">
 					<?php $this->render_form_panel( $settings ); ?>
 				</div>
-				<div id="cap-checkout-payment-panel" style="display:none;">
+				<!-- <div id="cap-checkout-payment-panel" style="display:none;">
 					<?php $this->render_payment_panel(); ?>
-				</div>
+				</div> -->
 			<?php endif; ?>
 		</div>
 		<?php
@@ -75,6 +75,7 @@ trait CAP_Trial_Registration_Frontend_Trait {
 				<div class="cap-step-indicator active" data-step="1"><span>1</span> Personal Details</div>
 				<div class="cap-step-indicator" data-step="2"><span>2</span> Cricketer Details</div>
 				<div class="cap-step-indicator" data-step="3"><span>3</span> Trial Preference</div>
+				<div class="cap-step-indicator" data-step="4"><span>4</span> Payment</div>
 			</div>
 
 			<div class="cap-form-step" data-step="1">
@@ -97,7 +98,7 @@ trait CAP_Trial_Registration_Frontend_Trait {
 				<div class="cap-grid">
 					<div class="cap-field"><label for="playing_role">Playing Role</label><select id="playing_role" name="playing_role" required><option value="">Select Playing Role</option><option value="Batter">Batter</option><option value="Bowler">Bowler</option><option value="Wicketkeeper">Wicketkeeper</option></select></div>
 					<div class="cap-field"><label for="batting_style">Batting Style</label><select id="batting_style" name="batting_style" required><option value="">Select Batting Style</option><option value="Right-hand bat">Right-hand bat</option><option value="Left-hand bat">Left-hand bat</option></select></div>
-					<div class="cap-field"><label for="bowling_style">Bowling Style</label><select id="bowling_style" name="bowling_style" required><option value="">Select Bowling Style</option><option value="Right-arm fast">Right-arm fast</option><option value="Right-arm off spin">Right-arm off spin</option><option value="Right-arm leg spin">Right-arm leg spin</option><option value="Left-arm fast">Left-arm fast</option><option value="Left-arm orthodox spin">Left-arm orthodox spin</option><option value="Left-arm chinaman">Left-arm chinaman</option><option value="Others">Others</option></select></div>
+					<div class="cap-field"><label for="bowling_style">Bowling Style</label><select id="bowling_style" name="bowling_style"><option value="">Select Bowling Style</option><option value="Right-arm fast">Right-arm fast</option><option value="Right-arm off spin">Right-arm off spin</option><option value="Right-arm leg spin">Right-arm leg spin</option><option value="Left-arm fast">Left-arm fast</option><option value="Left-arm orthodox spin">Left-arm orthodox spin</option><option value="Left-arm chinaman">Left-arm chinaman</option><option value="Others">Others</option></select></div>
 				</div>
 				<div class="cap-step-actions"><button type="button" class="cap-btn cap-btn-secondary cap-step-prev" data-current-step="2">Previous</button><button type="button" class="cap-btn cap-step-next" data-current-step="2">Next Step</button></div>
 			</div>
@@ -114,15 +115,45 @@ trait CAP_Trial_Registration_Frontend_Trait {
 					<label><input type="checkbox" name="declaration_correct_details" required> I confirm that all details submitted are correct.</label>
 					<label><input type="checkbox" name="declaration_registration_only" required> I understand that payment confirms registration only and does not guarantee scholarship selection.</label>
 					<label><input type="checkbox" name="declaration_terms" required> I agree to the programme terms and conditions.</label>
-					<label><input type="checkbox" name="declaration_media_consent" required> I consent to media usage.</label>
-					<label><input type="checkbox" name="declaration_age_proof" required> I will provide age-proof at venue.</label>
+					<label><input type="checkbox" name="declaration_media_consent" required> I consent to the use of event photos/videos for CAP communication and promotional purposes.</label>
+					<label><input type="checkbox" name="declaration_age_proof" required> I understand that original age-proof must be physically produced at the trial venue for verification.</label>
 				</div>
 				<div class="cap-terms-box">
 					<h4>Terms & Conditions</h4>
-					<ul><li>The registration fee is non-refundable once paid.</li><li>Disputes subject to Delhi jurisdiction.</li><li>Participation is at own risk.</li></ul>
+					<ul><li>The registration fee is non-refundable once paid.</li><li>In the event of any dispute, the matter shall be subject to <b>Delhi jurisdiction only</b>.</li><li>Participation in the scholarship trials will be entirely at the participant’s own risk. CAP shall not be responsible for any injury, accident, loss, or damage arising during participation in the trials.</li></ul>
 					<label><input type="checkbox" name="accept_terms_conditions" required> I accept the <a href="<?php echo esc_url( $terms_url ); ?>" target="_blank">Terms & Conditions</a></label>
 				</div>
-				<div class="cap-step-actions"><button type="button" class="cap-btn cap-btn-secondary cap-step-prev" data-current-step="3">Previous</button><button type="submit" class="cap-btn">Proceed to Payment</button></div>
+				<div class="cap-step-actions"><button type="button" class="cap-btn cap-btn-secondary cap-step-prev" data-current-step="3">Previous</button><button type="button" class="cap-btn cap-step-next" data-current-step="3">Proceed to Payment</button></div>
+			</div>
+			<div class="cap-form-step" data-step="4" style="display:none;">
+	<h3>Payment</h3>
+
+	<div class="cap-payment-summary">
+		<?php
+		$settings      = $this->get_settings();
+		$base_amount   = (int) $settings['base_amount'];
+		$tax_percent   = (float) $settings['tax_percent'];
+		$tax_amount    = round( ( $base_amount * $tax_percent ) / 100, 2 );
+		$total_amount  = round( $base_amount + $tax_amount, 2 );
+		?>
+
+		<p>Registration Fee: INR <?php echo esc_html( number_format( $base_amount, 2 ) ); ?></p>
+		<p>Tax (<?php echo esc_html( $tax_percent ); ?>%): INR <?php echo esc_html( number_format( $tax_amount, 2 ) ); ?></p>
+		<p><strong>Total: INR <?php echo esc_html( number_format( $total_amount, 2 ) ); ?></strong></p>
+	</div>
+
+	<div class="cap-step-actions">
+		<button type="button" class="cap-btn cap-btn-secondary cap-step-prev" data-current-step="4">
+			Previous
+		</button>
+
+<button type="button" id="cap-pay-now" class="cap-btn">
+	Pay Now
+</button>
+	</div>
+
+	<div id="cap-payment-result"></div>
+
 			</div>
 		</form>
 		<?php
