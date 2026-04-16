@@ -10,6 +10,51 @@
       ? capTrialReg.checkoutSession
       : "";
 
+  function setPaymentButtonState(isLoading, label) {
+    const $btn = $("#cap-pay-now");
+    if (isLoading) {
+      $btn
+        .addClass("loading")
+        .prop("disabled", true)
+        .text(label || "Processing...");
+      return;
+    }
+    $btn
+      .removeClass("loading")
+      .prop("disabled", false)
+      .text(label || "Pay Now");
+  }
+
+  function showPaymentResult(message, type) {
+    const $result = $("#cap-payment-result");
+    $result
+      .removeClass("cap-payment-success cap-payment-error cap-payment-info")
+      .addClass(type ? "cap-payment-" + type : "")
+      .text(message || "");
+  }
+
+  function setFullscreenLoaderMessage(message) {
+    const $message = $("#cap-loader-message");
+    if ($message.length) {
+      $message.text(message || "Please wait...");
+    }
+  }
+
+  function showFullscreenLoader(message) {
+    const $loader = $("#cap-fullscreen-loader");
+    setFullscreenLoaderMessage(message);
+
+    if ($loader.is(":visible")) {
+      return;
+    }
+
+    $loader.css("display", "flex").hide().fadeIn(120);
+  }
+
+  function hideFullscreenLoader() {
+    $("#cap-fullscreen-loader").stop(true, true).fadeOut(120);
+  }
+
   function updateProgress(step) {
     // const percent = (step / 3) * 100;
     const percent = (step / 4) * 100;
@@ -334,17 +379,15 @@
   });
 
   $(document).on("click", "#cap-pay-now", function () {
-    const $btn = $(this);
-
     if (!checkoutSession) {
       return alert("Submit form first");
     }
 
-    if ($btn.hasClass("loading")) return;
+    if ($("#cap-pay-now").hasClass("loading")) return;
 
-    $btn.addClass("loading").text("Processing...");
-
-    const $result = $("#cap-payment-result").text("Preparing payment...");
+    setPaymentButtonState(true, "Preparing...");
+    hideFullscreenLoader();
+    showPaymentResult("Preparing payment...", "info");
 
     $.post(capTrialReg.ajaxUrl, {
       action: "cap_create_razorpay_order",
@@ -353,8 +396,12 @@
     })
       .done(function (res) {
         if (!res.success) {
-          $result.text("Order failed");
-          $btn.removeClass("loading").text("Pay Now");
+          showPaymentResult(
+            (res.data && res.data.message) ||
+              "Unable to create order. Please try again.",
+            "error",
+          );
+          setPaymentButtonState(false, "Retry Payment");
           return;
         }
 
@@ -364,28 +411,80 @@
           currency: res.data.currency,
           order_id: res.data.order_id,
           name: "CAP Scholarship",
+          prefill: {
+            name: res.data.full_name || "",
+            email: res.data.email || "",
+            contact: res.data.contact || "",
+          },
+          modal: {
+            ondismiss: function () {
+              hideFullscreenLoader();
+              showPaymentResult(
+                "Payment popup was closed. You can click Retry Payment to continue.",
+                "error",
+              );
+              setPaymentButtonState(false, "Retry Payment");
+            },
+          },
           handler: function (response) {
+            showFullscreenLoader("Verifying payment... Please wait.");
+            showPaymentResult("Verifying payment...", "info");
             $.post(capTrialReg.ajaxUrl, {
               action: "cap_verify_payment",
               nonce: capTrialReg.verifyPaymentNonce,
               checkout_session: checkoutSession,
               thank_you_url: capTrialReg.thankYouUrl || "",
               ...response,
-            }).done(function (verify) {
-              if (verify.success && verify.data.redirect_url) {
-                window.location.href = verify.data.redirect_url;
-              }
-            });
+            })
+              .done(function (verify) {
+                if (verify.success && verify.data.redirect_url) {
+                  showFullscreenLoader("Payment successful. Redirecting...");
+                  showPaymentResult(
+                    "Payment successful. Redirecting...",
+                    "success",
+                  );
+                  setTimeout(function () {
+                    window.location.href = verify.data.redirect_url;
+                  }, 700);
+                  return;
+                }
+
+                hideFullscreenLoader();
+                showPaymentResult(
+                  (verify.data && verify.data.message) ||
+                    "Payment received but verification failed. Please retry.",
+                  "error",
+                );
+                setPaymentButtonState(false, "Retry Payment");
+              })
+              .fail(function () {
+                hideFullscreenLoader();
+                showPaymentResult(
+                  "Verification failed due to network/server issue. Please retry.",
+                  "error",
+                );
+                setPaymentButtonState(false, "Retry Payment");
+              });
           },
           theme: { color: "#0f62fe" },
         });
 
+        rzp.on("payment.failed", function (response) {
+          hideFullscreenLoader();
+          const reason =
+            response && response.error && response.error.description
+              ? response.error.description
+              : "Payment failed. Please retry.";
+          showPaymentResult(reason, "error");
+          setPaymentButtonState(false, "Retry Payment");
+        });
+
         rzp.open();
-        $result.text("");
+        showPaymentResult("", "");
       })
       .fail(function () {
-        $result.text("Server error. Try again.");
-        $btn.removeClass("loading").text("Pay Now");
+        showPaymentResult("Server error. Try again.", "error");
+        setPaymentButtonState(false, "Retry Payment");
       });
   });
 })(jQuery);

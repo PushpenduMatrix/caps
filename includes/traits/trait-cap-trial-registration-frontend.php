@@ -12,9 +12,16 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			CAP_TRIAL_REG_VERSION
 		);
 		wp_register_script(
+			'cap-trial-registration-razorpay-checkout',
+			'https://checkout.razorpay.com/v1/checkout.js',
+			array(),
+			null,
+			true
+		);
+		wp_register_script(
 			'cap-trial-registration-frontend',
 			CAP_TRIAL_REG_URL . 'assets/js/cap-trial-registration-frontend.js',
-			array( 'jquery' ),
+			array( 'jquery', 'cap-trial-registration-razorpay-checkout' ),
 			CAP_TRIAL_REG_VERSION,
 			true
 		);
@@ -51,6 +58,12 @@ trait CAP_Trial_Registration_Frontend_Trait {
 					<?php echo wp_kses_post( $settings['thank_you_content'] ); ?>
 				</div>
 			<?php else : ?>
+				<div id="cap-fullscreen-loader" class="cap-fullscreen-loader" style="display:none;" aria-live="polite" aria-busy="true">
+					<div class="cap-loader-content">
+						<div class="cap-loader-spinner" aria-hidden="true"></div>
+						<p id="cap-loader-message">Payment successful. Redirecting…</p>
+					</div>
+				</div>
 				<div id="cap-checkout-form-panel">
 					<?php $this->render_form_panel( $settings ); ?>
 				</div>
@@ -278,7 +291,6 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			<button type="button" id="cap-pay-now" class="cap-btn">Pay INR <?php echo esc_html( $display_total ); ?></button>
 			<div id="cap-payment-result"></div>
 		</div>
-		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 		<?php
 	}
 }
