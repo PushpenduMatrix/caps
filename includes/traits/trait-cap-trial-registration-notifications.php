@@ -75,11 +75,14 @@ trait CAP_Trial_Registration_Notifications_Trait {
 	}
 
 	private function send_approval_notifications( $reg_id, $status ) {
+		// print_r($status); exit;
+		
 		$email    = get_post_meta( $reg_id, '_email_id', true );
 		$mobile   = get_post_meta( $reg_id, '_mobile_number', true );
 		$settings = $this->get_settings();
 		$subject  = $settings['email_subject_approval'];
-		$body     = str_replace( '{{status}}', $status, $settings['email_body_approval'] );
+		$status_key = strtolower( $status ); // approved / rejected
+		$body     = $this->get_email_body_by_status( $settings, $status_key, $reg_id );
 
 		if ( is_email( $email ) ) {
 			wp_mail( $email, $subject, $body );
@@ -88,6 +91,24 @@ trait CAP_Trial_Registration_Notifications_Trait {
 		$this->send_fast2sms( $mobile, $body, 'sms' );
 		$this->send_fast2sms( $mobile, $body, 'whatsapp' );
 	}
+
+	private function get_email_body_by_status( $settings, $status, $reg_id ) {
+
+	switch ( $status ) {
+		case 'approved':
+			$body = $settings['email_body_approved'] ?? '';
+			break;
+
+		case 'disapproved':
+			$body = $settings['email_body_rejected'] ?? '';
+			break;
+
+		default:
+			$body = $settings['email_body_approval'] ?? '';
+	}
+
+	return $body;
+}
 
 	private function send_fast2sms( $mobile, $message, $channel = 'sms' ) {
 		$settings = $this->get_settings();

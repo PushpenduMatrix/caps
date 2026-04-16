@@ -51,6 +51,9 @@ trait CAP_Trial_Registration_Settings_Trait {
 		if ( array_key_exists( 'email_body_approval', $input ) ) {
 			$output['email_body_approval'] = sanitize_textarea_field( $input['email_body_approval'] );
 		}
+		if ( array_key_exists( 'email_body_rejected', $input ) ) {
+			$output['email_body_rejected'] = sanitize_textarea_field( $input['email_body_rejected'] );
+		}
 		if ( array_key_exists( 'admin_notification_email', $input ) ) {
 			$output['admin_notification_email'] = sanitize_email( $input['admin_notification_email'] );
 		}
@@ -96,6 +99,7 @@ trait CAP_Trial_Registration_Settings_Trait {
 			'email_body_confirmation'    => "Thank you for registering for CAP National Scholarship 2026.\n\nYour final trial date, batch timing, reporting details and venue instructions will be shared after final slot allocation via Email / SMS.\nPlease check your email and registered mobile number for further updates.",
 			'email_subject_approval'     => 'CAP National Scholarship 2026 - Application Status',
 			'email_body_approval'        => 'Your application status has been updated: {{status}}.',
+			'email_body_rejected'		=> 'Your application status has been Rejected!: {{status}}.',
 			'admin_notification_email'   => get_option( 'admin_email' ),
 			'thank_you_content'          => '<h2>Thank you for your payment.</h2><p>Your registration has been confirmed successfully.</p>',
 			'thank_you_page_url'         => '',

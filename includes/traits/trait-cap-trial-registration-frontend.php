@@ -81,14 +81,14 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			<div class="cap-form-step" data-step="1">
 				<h3>Personal Details</h3>
 				<div class="cap-grid">
-					<div class="cap-field"><label for="full_name">Full Name of Player</label><input type="text" id="full_name" name="full_name" required></div>
-					<div class="cap-field"><label for="date_of_birth">Date of Birth</label><input type="date" id="date_of_birth" name="date_of_birth" required></div>
-					<div class="cap-field"><label for="place_of_birth">Place of Birth</label><input type="text" id="place_of_birth" name="place_of_birth" required></div>
-					<div class="cap-field"><label for="residential_address">Residential Address</label><textarea id="residential_address" name="residential_address" required></textarea></div>
-					<div class="cap-field"><label for="guardian_name">Guardian's Name</label><input type="text" id="guardian_name" name="guardian_name" required></div>
-					<div class="cap-field"><label for="relationship_with_player">Relationship with Player</label><input type="text" id="relationship_with_player" name="relationship_with_player" required></div>
-					<div class="cap-field"><label for="mobile_number">Mobile Number</label><input type="tel" id="mobile_number" name="mobile_number" pattern="[0-9]{10,15}" required></div>
-					<div class="cap-field"><label for="email_id">Email ID</label><input type="email" id="email_id" name="email_id" required></div>
+					<div class="cap-field"><label for="full_name">Full Name of Player <span class="required">*</span></label><input type="text" id="full_name" name="full_name" required></div>
+					<div class="cap-field"><label for="date_of_birth">Date of Birth <span class="required">*</span></label><input type="date" id="date_of_birth" name="date_of_birth" required></div>
+					<div class="cap-field"><label for="place_of_birth">Place of Birth<span class="required">*</span></label><input type="text" id="place_of_birth" name="place_of_birth" required></div>
+					<div class="cap-field"><label for="residential_address">Residential Address<span class="required">*</span></label><textarea id="residential_address" name="residential_address" required></textarea></div>
+					<div class="cap-field"><label for="guardian_name">Guardian's Name<span class="required">*</span></label><input type="text" id="guardian_name" name="guardian_name" required></div>
+					<div class="cap-field"><label for="relationship_with_player">Relationship with Player<span class="required">*</span></label><input type="text" id="relationship_with_player" name="relationship_with_player" required></div>
+					<div class="cap-field"><label for="mobile_number">Mobile Number<span class="required">*</span></label><input type="tel" id="mobile_number" name="mobile_number" pattern="[0-9]{10,15}" required></div>
+					<div class="cap-field"><label for="email_id">Email ID<span class="required">*</span></label><input type="email" id="email_id" name="email_id" required></div>
 				</div>
 				<div class="cap-step-actions"><button type="button" class="cap-btn cap-step-next" data-current-step="1">Next Step</button></div>
 			</div>
@@ -96,7 +96,7 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			<div class="cap-form-step" data-step="2" style="display:none;">
 				<h3>Cricketer Details</h3>
 				<div class="cap-grid">
-					<div class="cap-field"><label for="playing_role">Playing Role</label><select id="playing_role" name="playing_role" required><option value="">Select Playing Role</option><option value="Batter">Batter</option><option value="Bowler">Bowler</option><option value="Wicketkeeper">Wicketkeeper</option></select></div>
+					<div class="cap-field"><label for="playing_role">Playing Role<span class="required">*</span></label><select id="playing_role" name="playing_role" required><option value="">Select Playing Role</option><option value="Batter">Batter</option><option value="Bowler">Bowler</option><option value="Wicketkeeper">Wicketkeeper</option></select></div>
 					<div class="cap-field"><label for="batting_style">Batting Style</label><select id="batting_style" name="batting_style" required><option value="">Select Batting Style</option><option value="Right-hand bat">Right-hand bat</option><option value="Left-hand bat">Left-hand bat</option></select></div>
 					<div class="cap-field"><label for="bowling_style">Bowling Style</label><select id="bowling_style" name="bowling_style"><option value="">Select Bowling Style</option><option value="Right-arm fast">Right-arm fast</option><option value="Right-arm off spin">Right-arm off spin</option><option value="Right-arm leg spin">Right-arm leg spin</option><option value="Left-arm fast">Left-arm fast</option><option value="Left-arm orthodox spin">Left-arm orthodox spin</option><option value="Left-arm chinaman">Left-arm chinaman</option><option value="Others">Others</option></select></div>
 				</div>
@@ -106,11 +106,11 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			<div class="cap-form-step" data-step="3" style="display:none;">
 				<h3>Trial Preference</h3>
 				<div class="cap-grid">
-					<div class="cap-field"><label for="cap_preferred_trial_venue">Preferred Trial Venue</label><select id="cap_preferred_trial_venue" name="preferred_trial_venue" required><option value="">Select Venue</option><?php foreach ( $settings['trial_venue_date_map'] as $venue_name => $dates ) : ?><option value="<?php echo esc_attr( $venue_name ); ?>"><?php echo esc_html( $venue_name ); ?></option><?php endforeach; ?></select></div>
-					<div class="cap-field"><label for="cap_preferred_trial_date">Preferred Trial Date</label><select id="cap_preferred_trial_date" name="preferred_trial_date" required><option value="">Select Date</option></select></div>
-					<div class="cap-field"><label for="preferred_batch_timing">Preferred Batch Timing</label><select id="preferred_batch_timing" name="preferred_batch_timing" required><option value="">Select Batch</option><?php foreach ( $settings['batch_timings'] as $batch_timing ) : ?><option value="<?php echo esc_attr( $batch_timing ); ?>"><?php echo esc_html( $batch_timing ); ?></option><?php endforeach; ?></select></div>
+					<div class="cap-field"><label for="cap_preferred_trial_venue">Preferred Trial Venue<span class="required">*</span></label><select id="cap_preferred_trial_venue" name="preferred_trial_venue" required><option value="">Select Venue</option><?php foreach ( $settings['trial_venue_date_map'] as $venue_name => $dates ) : ?><option value="<?php echo esc_attr( $venue_name ); ?>"><?php echo esc_html( $venue_name ); ?></option><?php endforeach; ?></select></div>
+					<div class="cap-field"><label for="cap_preferred_trial_date">Preferred Trial Date<span class="required">*</span></label><select id="cap_preferred_trial_date" name="preferred_trial_date" required><option value="">Select Date<span class="required">*</span></option></select></div>
+					<div class="cap-field"><label for="preferred_batch_timing">Preferred Batch Timing<span class="required">*</span></label><select id="preferred_batch_timing" name="preferred_batch_timing" required><option value="">Select Batch</option><?php foreach ( $settings['batch_timings'] as $batch_timing ) : ?><option value="<?php echo esc_attr( $batch_timing ); ?>"><?php echo esc_html( $batch_timing ); ?></option><?php endforeach; ?></select></div>
 				</div>
-				<h3>Mandatory Declarations</h3>
+				<h3>Mandatory Declarations<span class="required">*</span></h3>
 				<div class="cap-checkbox-group">
 					<label><input type="checkbox" name="declaration_correct_details" required> I confirm that all details submitted are correct.</label>
 					<label><input type="checkbox" name="declaration_registration_only" required> I understand that payment confirms registration only and does not guarantee scholarship selection.</label>

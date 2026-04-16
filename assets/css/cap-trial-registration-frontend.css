@@ -61,6 +61,13 @@
 	flex-direction: column;
 }
 
+.cap-field .required {
+	color: #e00000;
+	/* clean red */
+	margin-left: 4px;
+	font-weight: 600;
+}
+
 .cap-field label {
 	font-size: 11px;
 	text-transform: uppercase;
@@ -198,5 +205,33 @@
 
 	#preferred_batch_timing {
 		grid-column: span 1;
+	}
+}
+
+@media (max-width: 600px) {
+	.cap-reg-wrap .cap-grid {
+		grid-template-columns: repeat(1, 1fr);
+	}
+
+	.cap-reg-wrap {
+		padding: 30px 15px;
+	}
+
+	.cap-form-step[data-step="3"] .cap-grid {
+		display: block;
+	}
+
+	.cap-reg-wrap .cap-terms-box label,
+	.cap-checkbox-group label {
+		flex-wrap: wrap;
+	}
+
+	.cap-form-step[data-step="3"] .cap-step-actions {
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.cap-form-step[data-step="3"] .cap-btn {
+		width: 100%;
 	}
 }

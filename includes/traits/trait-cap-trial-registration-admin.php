@@ -619,7 +619,11 @@ trait CAP_Trial_Registration_Admin_Trait {
 						</tr>
 						<tr>
 							<th scope="row"><label for="email_body_approval">Approval Status Email Body</label></th>
-							<td><textarea id="email_body_approval" name="<?php echo esc_attr( self::OPT_KEY ); ?>[email_body_approval]" rows="5" class="large-text"><?php echo esc_textarea( $settings['email_body_approval'] ); ?></textarea><p class="description">Use <code>{{status}}</code> placeholder for Approved/Disapproved.</p></td>
+							<td><textarea id="email_body_approval" name="<?php echo esc_attr( self::OPT_KEY ); ?>[email_body_approval]" rows="5" class="large-text"><?php echo esc_textarea( $settings['email_body_approval'] ); ?></textarea></td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="email_body_rejected">Rejected Status Email Body</label></th>
+							<td><textarea id="email_body_rejected" name="<?php echo esc_attr( self::OPT_KEY ); ?>[email_body_rejected]" rows="5" class="large-text"><?php echo esc_textarea( $settings['email_body_rejected'] ); ?></textarea></td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="thank_you_content">Thank You Page Content</label></th>
