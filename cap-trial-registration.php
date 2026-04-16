@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CAP_TRIAL_REG_VERSION', '1.0.4' );
+define( 'CAP_TRIAL_REG_VERSION', '1.0.5' );
 define( 'CAP_TRIAL_REG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CAP_TRIAL_REG_URL', plugin_dir_url( __FILE__ ) );
 

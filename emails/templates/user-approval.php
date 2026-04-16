@@ -1,6 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
-<p><?php echo esc_html( $message ); ?></p>
+<p style="margin:0 0 20px 0; text-align:center; font-size:16px; line-height:1.6; color:#333333; font-weight:500;">
+	<?php echo esc_html( $message ); ?>
+</p>
 
 <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:15px;">
 	<tr>

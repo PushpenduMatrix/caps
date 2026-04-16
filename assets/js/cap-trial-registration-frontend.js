@@ -319,6 +319,12 @@
   //       });
   //   });
 
+  $(document).on("change", "#playing_role", function () {
+    // Reset dependent fields
+    $("#batting_style").val("").trigger("change");
+    $("#bowling_style").val("").trigger("change");
+  });
+
   $(document).on("input change", "input, select, textarea", function () {
     $(this)
       .removeClass("cap-field-error")

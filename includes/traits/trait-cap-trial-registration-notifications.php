@@ -16,9 +16,23 @@ trait CAP_Trial_Registration_Notifications_Trait {
 			return;
 		}
 
-		if ( is_email( $email ) ) {
-			wp_mail( $email, $subject, $body );
-		}
+			// ✅ EMAIL (only existing fields passed)
+	if ( is_email( $email ) ) {
+
+		CAP_Email::send(
+			$email,
+			$subject,
+			'user-payment-confirmation.php',
+			array(
+				'message'        => $body,
+				'payment_status' => $payment_status,
+				'email'          => $email,
+				'mobile'         => $mobile,
+				'email_heading'  => 'Payment Confirmation',
+				'logo_url'       => 'https://cricketacademyofpathans.com/wp-content/uploads/2021/06/wl2-2.png',
+			)
+		);
+	}
 
 		$this->send_admin_registration_email( $reg_id );
 		$this->send_fast2sms( $mobile, $body, 'sms' );
@@ -100,7 +114,7 @@ trait CAP_Trial_Registration_Notifications_Trait {
 				'message'       => $message,
 				'reference_id'  => $reference_id,
 				'status'        => $status_key,
-				'email_heading' => 'Registration ' . ucfirst( $status_key ),
+				'email_heading' => 'Application ' . ucfirst( $status_key ),
 				'logo_url'      => 'https://cricketacademyofpathans.com/wp-content/uploads/2021/06/wl2-2.png',
 			)
 		);
@@ -114,15 +128,15 @@ trait CAP_Trial_Registration_Notifications_Trait {
 
 	switch ( $status ) {
 		case 'approved':
-			$body = $settings['email_body_approved'] ?? '';
+			$body = $settings['email_body_approval'] ?? 'Congrats! Your Application was Approved.';
 			break;
 
 		case 'disapproved':
-			$body = $settings['email_body_rejected'] ?? '';
+			$body = $settings['email_body_rejected'] ?? 'SORRY! Your Application was disapproved.';
 			break;
 
 		default:
-			$body = $settings['email_body_approval'] ?? '';
+			$body = $settings['email_body_approval'] ?? 'Registration Updated!!!';
 	}
 
 	return $body;
