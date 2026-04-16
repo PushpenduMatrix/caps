@@ -17,6 +17,7 @@ define( 'CAP_TRIAL_REG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CAP_TRIAL_REG_URL', plugin_dir_url( __FILE__ ) );
 
 require_once CAP_TRIAL_REG_PATH . 'includes/class-cap-trial-registration.php';
+require_once __DIR__ . '/emails/class-cap-email.php';
 
 register_activation_hook( __FILE__, array( 'CAP_Trial_Registration', 'activate' ) );
 

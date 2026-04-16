@@ -66,12 +66,15 @@ trait CAP_Trial_Registration_Notifications_Trait {
 			'Approval Status'          => get_post_meta( $reg_id, '_approval_status', true ),
 		);
 
-		$body_lines = array( 'A new registration has been submitted with payment.', '' );
-		foreach ( $fields as $label => $value ) {
-			$body_lines[] = $label . ': ' . $value;
-		}
-
-		wp_mail( $admin_email, $subject, implode( "\n", $body_lines ) );
+		CAP_Email::send(
+		$admin_email,
+		'New CAP Registration Received',
+		'admin-registration.php',
+		array(
+			'fields'        => $fields,
+			'email_heading' => 'New Registration Submitted',
+			'logo_url'      => 'https://cricketacademyofpathans.com/wp-content/uploads/2021/06/wl2-2.png',
+		) );
 	}
 
 	private function send_approval_notifications( $reg_id, $status ) {
@@ -81,12 +84,27 @@ trait CAP_Trial_Registration_Notifications_Trait {
 		$mobile   = get_post_meta( $reg_id, '_mobile_number', true );
 		$settings = $this->get_settings();
 		$subject  = $settings['email_subject_approval'];
-		$status_key = strtolower( $status ); // approved / rejected
-		$body     = $this->get_email_body_by_status( $settings, $status_key, $reg_id );
+		$status_key = strtolower( $status ); // approved / disapproved
+		$message     = $this->get_email_body_by_status( $settings, $status_key, $reg_id );
+		$reference_id = get_post_meta( $reg_id, '_reference_id', true );
+		// $message = $this->get_email_body_by_status( $settings, $status_key, $reg_id );
 
-		if ( is_email( $email ) ) {
-			wp_mail( $email, $subject, $body );
-		}
+	// ✅ EMAIL (HTML TEMPLATE)
+	if ( is_email( $email ) ) {
+
+		CAP_Email::send(
+			$email,
+			$settings['email_subject_approval'] ?? 'Registration Status Update',
+			'user-approval.php',
+			array(
+				'message'       => $message,
+				'reference_id'  => $reference_id,
+				'status'        => $status_key,
+				'email_heading' => 'Registration ' . ucfirst( $status_key ),
+				'logo_url'      => 'https://cricketacademyofpathans.com/wp-content/uploads/2021/06/wl2-2.png',
+			)
+		);
+	}
 
 		$this->send_fast2sms( $mobile, $body, 'sms' );
 		$this->send_fast2sms( $mobile, $body, 'whatsapp' );
