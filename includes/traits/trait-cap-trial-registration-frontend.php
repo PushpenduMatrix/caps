@@ -95,7 +95,7 @@ trait CAP_Trial_Registration_Frontend_Trait {
 				<h3>Personal Details</h3>
 				<div class="cap-grid">
 					<div class="cap-field"><label for="full_name">Full Name of Player <span class="required">*</span></label><input type="text" id="full_name" name="full_name" required></div>
-					<div class="cap-field"><label for="date_of_birth">Date of Birth <span class="required">*</span></label><input type="date" id="date_of_birth" name="date_of_birth" required></div>
+					<div class="cap-field"><label for="date_of_birth">Date of Birth <span class="required">*</span></label><input type="date" id="date_of_birth" name="date_of_birth" placeholder="DD/MM/YYYY" required></div>
 					<div class="cap-field"><label for="place_of_birth">Place of Birth<span class="required">*</span></label><input type="text" id="place_of_birth" name="place_of_birth" required></div>
 					<div class="cap-field"><label for="residential_address">Residential Address<span class="required">*</span></label><textarea id="residential_address" name="residential_address" required></textarea></div>
 					<div class="cap-field"><label for="guardian_name">Guardian's Name<span class="required">*</span></label><input type="text" id="guardian_name" name="guardian_name" required></div>
@@ -201,7 +201,7 @@ trait CAP_Trial_Registration_Frontend_Trait {
 			'email_id',
 			'playing_role',
 			'batting_style',
-			'bowling_style',
+			// 'bowling_style',
 			'preferred_trial_venue',
 			'preferred_trial_date',
 			'preferred_batch_timing',
